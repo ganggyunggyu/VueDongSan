@@ -1,26 +1,50 @@
+<!-- @format -->
+
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <DetailModal
+    @modalOff="detailModalView = false"
+    :oneRooms="oneRooms"
+    :detailIndex="detailIndex"
+    :detailModalView="detailModalView"
+  />
+  <NavBar />
+  <div v-for="(oneRoom, i) of oneRooms" :key="i">
+    <RoomItem
+      @RoomIndex="detailIndex = $event"
+      @modalOn="detailModalView = true"
+      @reportsPlus="oneRoom.reports += 1"
+      :oneRoom="oneRoom"
+    />
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import oneRooms from './db/data';
+import DetailModal from './components/DetailModal.vue';
+import RoomItem from './components/RoomItem.vue';
+import NavBar from './components/NavBar.vue';
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  data() {
+    return {
+      detailIndex: 0,
+      oneRooms: oneRooms,
+      detailModalView: false,
+    };
+  },
+  methods: {},
+
+  components: { DetailModal: DetailModal, RoomItem: RoomItem, NavBar: NavBar },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+body {
+  margin: 0;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+}
+div {
+  box-sizing: border-box;
 }
 </style>
